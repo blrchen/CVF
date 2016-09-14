@@ -1,3 +1,3 @@
 # CVF
 
-This is for cvf bower package
+Prototype for using angular in cvf to support ui extensions
