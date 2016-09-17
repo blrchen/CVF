@@ -1,0 +1,51 @@
+﻿{
+  "Name": "Demo",
+  "DisplayName": "Demo Plugin",
+  "Description": "Demo plugin",
+  "Certificate": { "Thumbnail": "" },
+  "Url": "http://localhost:5000/api",
+  "Categories": [
+    {
+      "Name": "tabledemo",
+      "DisplayName": "插件示例-表格",
+      "Description": "插件示例-表格",
+      "Items": [
+        {
+          "Name": "table",
+          "DisplayName": "分页表格示例",
+          "Type": "Table",
+          "Route": "demo/table",
+          "View": "demo-table.html"
+        }
+      ]
+    },
+    {
+      "Name": "formdemo",
+      "DisplayName": "插件示例-表单",
+      "Description": "插件示例-表单",
+      "Items": [
+        {
+          "Name": "form",
+          "DisplayName": "表单示例",
+          "Type": "Form",
+          "Route": "demo/form",
+          "View": "demo-form.html"
+        }
+      ]
+    },
+    {
+      "Name": "chartdemo",
+      "DisplayName": "插件示例-图表",
+      "Description": "插件示例-图表",
+      "Items": [
+        {
+          "Name": "chart",
+          "DisplayName": "图表示例",
+          "Type": "Chart",
+          "Route": "demo/chart",
+          "View": "demo-chart.html"
+        }
+      ]
+    }
+  ]
+}

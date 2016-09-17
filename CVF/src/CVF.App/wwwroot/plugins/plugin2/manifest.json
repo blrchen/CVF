@@ -1,0 +1,23 @@
+﻿{
+  "Name": "Plugin2",
+  "DisplayName": "Plugin 2",
+  "Description": "Plugin 2",
+  "Certificate": { "Thumbnail": "" },
+  "Url": "http://localhost:5000/api",
+  "Categories": [
+    {
+      "Name": "tabledemo",
+      "DisplayName": "p2分类",
+      "Description": "p2分类",
+      "Items": [
+        {
+          "Name": "table",
+          "DisplayName": "p2列表",
+          "Type": "Table",
+          "Route": "p2/table",
+          "View": "p2-table.html"
+        }
+      ]
+    }
+  ]
+}

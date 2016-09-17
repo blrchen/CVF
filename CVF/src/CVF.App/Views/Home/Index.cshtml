@@ -1,0 +1,55 @@
+﻿@using CVF.App.Models
+@model IReadOnlyList<CVF.App.Models.Plugin>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    <nav class="navbar navbar-static-top navbar-dark bg-inverse">
+        <a class="navbar-brand" href="#">CVF Prototype</a>
+        <ul class="nav navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/Home">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Home/About">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Home/Contact">Contact</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">CVF Prototype</h1>
+        <p>Get rid of jQuery, pure angular implementation</p>
+    </div>
+</div>
+<div class="container">
+    <!-- Example row of columns -->
+
+    @{
+        var groups = this.Model.Select((m, idx) => new { Index = idx, Value = m })
+            .GroupBy(v => v.Index / 3)
+            .Select(x => x.Select(v => v.Value).ToList())
+            .ToList();
+
+        foreach (var g in groups)
+        {
+            <div class="row">
+                @foreach (var p in g)
+                {
+                    <div class="col-md-4">
+                        <h3>@p.DisplayName <small>(@p.Name)</small></h3>
+                        <p>@p.Description </p>
+                        <p><a href="/Home/Plugin/@p.Name" class="btn btn-primary" role="button">GO &raquo;</a></p>
+
+                    </div>
+                }
+            </div>
+        }
+    }
+
+</div>

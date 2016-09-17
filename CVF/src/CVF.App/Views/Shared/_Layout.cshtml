@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html ng-app="pluginApp">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CVF.App</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/lib/angular-chart.js/dist/angular-chart.css" />
+    <link rel="stylesheet" href="~/css/metisMenu.css" />
+    <link rel="stylesheet" href="~/css/sb-admin-2.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <environment names="Development">
+    </environment>
+    <environment names="Staging,Production">
+    </environment>
+</head>
+<body>
+    @RenderBody()
+    <div class="footer">
+        <footer class="footer"></footer>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @*<script src="~/js/sb-admin-2.js"></script>*@
+    <script src="~/js/Chart.js"></script>
+    <script src="~/lib/angular/angular.js"></script>
+    <script src="~/js/angular-chart.js"></script>
+    <script src="~/js/angular-route.js"></script>
+    <script src="~/js/angular-ui/ui-bootstrap.js"></script>
+    <script src="~/js/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="~/js/plugin.js" asp-append-version="true"></script>
+    @*<script src="~/js/metisMenu.js"></script>*@
+    <environment names="Development">
+    </environment>
+    <environment names="Staging,Production">
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

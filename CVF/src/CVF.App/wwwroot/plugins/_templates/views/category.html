@@ -1,0 +1,14 @@
+﻿<div class="page-header">
+    <h1>{{category.displayName}}<small>{{category.name}}</small></h1>
+    <p>{{category.description}}</p>
+    <p class="cap-title">该分类包含以下项目：</p>
+</div>
+<div ng-repeat="g in category.items |group:4" class="row">
+    <div ng-repeat="item in g" class="col-sm-3">
+        <div>
+            <h3>{{item.displayName}}<small>{{item.name}}</small></h3>
+            <p>{{item.description}}</p>
+            <p><a href="#/category/{{category.name}}/item/{{item.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
+        </div>
+    </div>
+</div>

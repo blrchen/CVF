@@ -1,0 +1,15 @@
+﻿<div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1>{{item.displayName}} <small>{{item.name}}</small></h1>
+                <p>{{item.description}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div ng-include="'/plugins/'+plugin.name+'/views/'+item.view"></div>
+        </div>
+    </div>
+</div>

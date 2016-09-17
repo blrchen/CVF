@@ -1,0 +1,17 @@
+﻿<div class="page-header">
+    <h1>{{plugin.displayName}}<small>{{plugin.name}}</small></h1>
+    <p>{{plugin.description}}</p>
+    <p class="cap-title">该插件包含以下分类：</p>
+</div>
+<div class="container-fluid">
+    <div ng-repeat="g in plugin.categories | group:4" class="row">
+
+        <div class="row">
+            <div ng-repeat="category in g" class="col-md-3">
+                <h3>{{category.displayName}}<small>{{category.name}}</small></h3>
+                <p>{{category.description}}</p>
+                <p><a href="#/category/{{category.name}}" class="btn btn-primary" role="button">GO &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+</div>
