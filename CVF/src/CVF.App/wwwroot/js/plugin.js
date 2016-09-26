@@ -1,18 +1,35 @@
-﻿$groupCache = {};
+﻿var $enums = $enums || {};
+(function (enums) {
+    enums.items = [];
+
+    enums.find = function (name, value) {
+        var item = enums.items.find(function (i) {
+            return i.name == name;
+        });
+
+        if (typeof (value) == 'undefined') {
+            return item;
+        }
+
+        if (!item) {
+            return value;
+        }
+
+        let result = item.items.find(function (ele) {
+            return ele.value === value || ele.name === value;
+        });
+
+        return result;
+    };
+})($enums || ($enums = {}));
+
+$groupCache = {};
 // var $plugins = null;
-var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute'])
+var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRoute', 'gc.bootstrap.modal'])
     .filter('enums', function () {
         return function (input, enumName) {
-            var items = $enums[enumName];
-            if (!items) {
-                return input;
-            }
-
-            if (typeof (input) === 'number') {
-                return items[input];
-            } else {
-                return items[items[input]];
-            }
+            var item = $enums.find(enumName, input);
+            return item ? item.displayName : input;
         }
     }).filter('group', function () {
         return function (input, length) {
@@ -99,7 +116,7 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
         };
     }])
     .controller('baseController', ['$scope', '$http', '$location', '$templateCache', 'pluginService', function ($scope, $http, $location, $templateCache, pluginService) {
-
+        $scope.$enums = $enums;
         var group = function (items, length) {
             if (!items) {
                 return null;
@@ -152,6 +169,7 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
         $controller('baseController', { $scope: $scope });
         $scope.params = {};
         $scope.beforeFetch = function () { };
+        $scope.loadingText = "Loading...";
 
         var post = function (method) {
             $scope.code = null;
@@ -162,6 +180,8 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
                     params.push(n + "=" + $scope.params[n]);
                 }
             }
+
+            $scope.loading = true;
 
             $http.post(
                 '/api/plugins',
@@ -177,21 +197,29 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
                     cache: $templateCache
                 }).
                 then(function (response) {
-                    console.log(response);
+                    $scope.loading = false;
                     $scope.status = response.status;
                     $scope.data = response.data;
                 }, function (response) {
+                    $scope.loading = false;
                     $scope.data = response.data || "Request failed";
                     $scope.status = response.status;
                 });
         }
 
-        $scope.fetch = function () {
+        $scope._fetch = function () {
+            $scope.loadingText = "Loading...";
             post('Read');
         };
 
-        $scope.update = function () {
+        $scope._update = function () {
+            $scope.loadingText = "Updating...";
             post('Update');
+        };
+
+        $scope._delete = function () {
+            $scope.loadingText = "Deleting...";
+            post('Delete');
         };
     }]).controller('pluginsController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
         $controller('apiController', { $scope: $scope });
@@ -203,12 +231,12 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
         $scope.beforeFetch = function () { };
 
         $scope.onPageChange = function () {
-            $scope.fetch();
+            $scope._fetch();
         }
 
         $scope.onPageSizeChange = function (size) {
             $scope.params.pageSize = size;
-            $scope.fetch();
+            $scope._fetch();
         }
 
         $scope.updateModel = function (method, url) {
@@ -216,22 +244,44 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
             $scope.url = url;
         };
 
-        $scope.fetch();
-    }]).controller('formController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
+        $scope.open = function (raw) {
+            $scope.raw = raw;
+            $scope.showModal = true;
+        };
+
+        $scope.save = function () {
+            $scope.params.raw = JSON.stringify($scope.raw);
+            $scope._update();
+            $scope.showModal = false;
+        };
+
+        $scope.delete = function (raw) {
+            $scope.params.raw = JSON.stringify($scope.raw);
+            $scope._delete();
+            $scope.showModel = false;
+        };
+
+        $scope.cancel = function () {
+            $scope.showModal = false;
+        };
+
+        $scope._fetch();
+    }])
+    .controller('formController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
         $controller('apiController', { $scope: $scope });
 
         $scope.updateData = function () {
             $scope.params.data = JSON.stringify($scope.data);
-            $scope.update();
+            $scope._update();
         }
 
-        $scope.fetch();
-    }]).controller('chartController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
+        $scope._fetch();
+    }])
+    .controller('chartController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
         $controller('apiController', { $scope: $scope });
-        $scope.fetch();
+        $scope._fetch();
     }])
     .config(['$routeProvider', function ($routeProvider) {
-        debugger;
         if ($plugin) {
             if ($plugin.categories) {
                 $plugin.categories.forEach(function (c) {

@@ -9,7 +9,7 @@ namespace CVF.App.Models
         [DataMember(Name = "url")]
         public string Url { get; set; }
 
-        [IgnoreDataMember]
+        [DataMember(Name = "scripts")]
         public List<string> Scripts { get; set; }
 
         [IgnoreDataMember]

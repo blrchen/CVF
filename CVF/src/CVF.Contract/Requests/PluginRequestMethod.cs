@@ -3,6 +3,7 @@
     public enum PluginRequestMethod
     {
         Read,
-        Update
+        Update,
+        Delete
     }
 }

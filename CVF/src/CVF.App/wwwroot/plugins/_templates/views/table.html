@@ -1,15 +1,8 @@
 ﻿<div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="page-header">
-                <h1>{{item.displayName}} <small>{{item.name}}</small></h1>
-                <p>{{item.description}}</p>
-            </div>
-        </div>
-    </div>
+    <div ng-include="'/plugins/_templates/views/header.html'"></div>
     <div class="row">
         <div class="col-sm-offset-8 col-sm-4">
-            <form ng-submit="fetch()">
+            <form ng-submit="_fetch()">
                 <div class="input-group">
                     <input type="text" class="form-control" ng-model="params.keyword" placeholder="Search" name="srch-term" id="srch-term">
                     <div class="input-group-btn">

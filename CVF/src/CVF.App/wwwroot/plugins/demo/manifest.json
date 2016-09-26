@@ -4,6 +4,9 @@
   "Description": "Demo plugin",
   "Certificate": { "Thumbnail": "" },
   "Url": "http://localhost:5000/api",
+  "Scripts": [
+    "demo-scripts.js"
+  ],
   "Categories": [
     {
       "Name": "tabledemo",
