@@ -8,3 +8,14 @@
     color: #aaa;
     font-size: 1.7em;
 }
+
+.gc-alert {
+    position: fixed;
+    width: 20%;
+    text-align: center;
+    z-index: 1;
+}
+
+.gc-error-btn {
+    cursor: pointer;
+}

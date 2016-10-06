@@ -167,9 +167,16 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
         $controller('baseController', { $scope: $scope });
     }]).controller('apiController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
         $controller('baseController', { $scope: $scope });
+
+        var loading = {
+            'fetch': '正在加载',
+            'update': '正在更新',
+            'delete': '正在删除',
+            'done': null,
+        };
+
         $scope.params = {};
         $scope.beforeFetch = function () { };
-        $scope.loadingText = "Loading...";
 
         var post = function (method) {
             $scope.code = null;
@@ -181,7 +188,7 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
                 }
             }
 
-            $scope.loading = true;
+            $scope.error = null;
 
             $http.post(
                 '/api/plugins',
@@ -194,31 +201,39 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
                 },
                 {
                     responseType: 'json',
-                    cache: $templateCache
+                    // cache: $templateCache,
+                    timeout: 10000
                 }).
                 then(function (response) {
-                    $scope.loading = false;
+                    $scope.loadingText = loading.done;
                     $scope.status = response.status;
                     $scope.data = response.data;
                 }, function (response) {
-                    $scope.loading = false;
-                    $scope.data = response.data || "Request failed";
-                    $scope.status = response.status;
+                    $scope.loadingText = loading.done;
+                    console.log(response);
+                    $scope.error = {
+                        status: response.status,
+                        message: response.data || (response.status == "-1" ? "请求超时，服务器没有在有效时间内做出相应" : "发生未知错误")
+                    };
                 });
         }
 
+        $scope._hideError = function () {
+            $scope.error = null;
+        };
+
         $scope._fetch = function () {
-            $scope.loadingText = "Loading...";
+            $scope.loadingText = loading.fetch;
             post('Read');
         };
 
         $scope._update = function () {
-            $scope.loadingText = "Updating...";
+            $scope.loadingText = loading.update;
             post('Update');
         };
 
         $scope._delete = function () {
-            $scope.loadingText = "Deleting...";
+            $scope.loadingText = loading.delete;
             post('Delete');
         };
     }]).controller('pluginsController', ['$scope', '$http', '$templateCache', '$controller', 'pluginService', function ($scope, $http, $templateCache, $controller, pluginService) {
