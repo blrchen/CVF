@@ -2,12 +2,11 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "bootstrap": "3.3.6",
-    "jquery": "2.2.0",
-    "jquery-validation": "1.14.0",
-    "jquery-validation-unobtrusive": "3.2.6",
-    "angular": "1.5.5",
-    "font-awesome": "4.6.1",
-    "Chart.js": "2.0.2"
+    "angular": "^1.5.8",
+    "angular-chart.js": "^1.0.3",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.6.3",
+    "angular-bootstrap": "^2.1.4",
+    "angular-route": "^1.5.8"
   }
 }
