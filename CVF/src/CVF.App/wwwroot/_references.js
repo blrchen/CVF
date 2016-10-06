@@ -1,6 +1,4 @@
 ﻿/// <autosync enabled="true" />
-/// <reference path="js/angular.min.js" />
-/// <reference path="js/angular-route.min.js" />
 /// <reference path="js/components.js" />
 /// <reference path="js/metismenu.js" />
 /// <reference path="js/plugin.js" />
