@@ -5,7 +5,7 @@ var gulp = require("gulp");
 
 var paths = {
     webroot: "./wwwroot/",
-    bower: "./bower_components/",
+    module: "./node_modules/",
     lib: "./wwwroot/lib/"
 };
 
@@ -17,9 +17,9 @@ paths.concatJsDest = paths.webroot + "js/site.min.js";
 paths.concatCssDest = paths.webroot + "css/site.min.css";
 
 gulp.task("copy", function () {
-    var bower = {
+    var npm = {
         "angular": "angular/angular*.js",
-        "angular-bootstrap": "angular-bootstrap/ui-bootstrap*.{js,css}",
+        "angular-ui-bootstrap": "angular-ui-bootstrap/dist/ui-bootstrap*.{js,css}",
         "angular-chart.js": "angular-chart.js/dist/*.js",
         "angular-route": "angular-route/angular-route.js",
         "bootstrap": "bootstrap/dist/**/*.{js,map,css,ttf,svg,woff,eot}",
@@ -29,8 +29,8 @@ gulp.task("copy", function () {
         "metisMenu": "metisMenu/dist/*.{js,css}"
     }
 
-    for (var destinationDir in bower) {
-        gulp.src(paths.bower + bower[destinationDir])
+    for (var destinationDir in npm) {
+        gulp.src(paths.module + npm[destinationDir])
           .pipe(gulp.dest(paths.lib + destinationDir));
     }
 });
