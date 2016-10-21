@@ -311,7 +311,7 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
                                 templateUrl: '/plugins/_templates/views/' + i.type + '.html',
                                 controller: i.controller
                             });
-                        })
+                        });
                     }
                 });
             }
