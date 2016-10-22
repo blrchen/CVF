@@ -26,7 +26,7 @@ namespace CVF.App.ApiControllers
                 var updateRawData = request.RawData;
                 if (updateRawData != null)
                 {
-                    var dbRawData = SampleDatas.Where(d => d.Id == updateRawData.Id).FirstOrDefault();
+                    var dbRawData = SampleDatas.FirstOrDefault(d => d.Id == updateRawData.Id);
                     if (dbRawData != null)
                     {
                         dbRawData.Name = updateRawData.Name;

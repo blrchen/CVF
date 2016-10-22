@@ -52,14 +52,14 @@ namespace CVF.App.Manager
         private IReadOnlyList<Plugin> GetPlugins(string path)
         {
             var files = Directory.GetFiles(path, "manifest.json", SearchOption.AllDirectories);
-            var plugins = new List<Plugin>();
+            var result = new List<Plugin>();
             foreach (var file in files)
             {
                 var plugin = JsonConvert.DeserializeObject<Plugin>(File.ReadAllText(file));
-                plugins.Add(plugin);
+                result.Add(plugin);
             }
 
-            return plugins;
+            return result;
         }
     }
 }

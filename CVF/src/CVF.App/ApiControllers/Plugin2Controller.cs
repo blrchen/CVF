@@ -5,14 +5,10 @@ using CVF.Contract.Requests;
 using CVF.Contract.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace CVF.App.ApiControllers
 {
-
     public class Plugin2Controller : Controller
     {
-        private static Plugin2Controller GlobalSettings;
         private static readonly List<DemoPluginRawData> SampleDatas = ParallelEnumerable.Range(0, 1000)
                     .Select(i => new DemoPluginRawData() { Id = i, Name = "demo data " + i.ToString(), Type = (DemoEnumType)(i % 3) })
                     .ToList();
@@ -26,7 +22,7 @@ namespace CVF.App.ApiControllers
                 var updateRawData = request.RawData;
                 if (updateRawData != null)
                 {
-                    var dbRawData = SampleDatas.Where(d => d.Id == updateRawData.Id).FirstOrDefault();
+                    var dbRawData = SampleDatas.FirstOrDefault(d => d.Id == updateRawData.Id);
                     if (dbRawData != null)
                     {
                         dbRawData.Name = updateRawData.Name;
@@ -71,12 +67,5 @@ namespace CVF.App.ApiControllers
                 Total = total
             };
         }
-
-        private double[] RandomNumbers(int length)
-        {
-            Random random = new Random();
-            return new int[length].Select(i => Math.Floor(random.NextDouble() * 10000) / 100).ToArray();
-        }
-
     }
 }

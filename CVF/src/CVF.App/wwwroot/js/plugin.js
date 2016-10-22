@@ -109,7 +109,6 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
             }
         };
 
-        var _this = this;
         this.init = function (route) {
             this.setCurrent(route);
             notifyObservers();
@@ -117,27 +116,6 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
     }])
     .controller('baseController', ['$scope', '$http', '$location', '$templateCache', 'pluginService', function ($scope, $http, $location, $templateCache, pluginService) {
         $scope.$enums = $enums;
-        var group = function (items, length) {
-            if (!items) {
-                return null;
-            }
-
-            if (items.length <= length) {
-                return [items];
-            }
-            var groups = [];
-            var group = [];
-            for (var i = 0; i < items.length; i++) {
-                if (i % length == 0) {
-                    group = [];
-                    groups.push(group);
-                }
-
-                group.push(items[i]);
-            }
-
-            return groups;
-        }
 
         function updateScope() {
             $scope.plugins = pluginService.plugins;

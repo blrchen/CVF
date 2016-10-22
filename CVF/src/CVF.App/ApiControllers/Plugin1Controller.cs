@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CVF.Contract.Requests;
 using CVF.Contract.Responses;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CVF.App.ApiControllers
 {
-
     public class Plugin1Controller : Controller
     {
         private static readonly List<DemoPluginRawData> SampleDatas = ParallelEnumerable.Range(0, 1000)
@@ -23,7 +21,7 @@ namespace CVF.App.ApiControllers
                 var updateRawData = request.RawData;
                 if (updateRawData != null)
                 {
-                    var dbRawData = SampleDatas.Where(d => d.Id == updateRawData.Id).FirstOrDefault();
+                    var dbRawData = SampleDatas.FirstOrDefault(d => d.Id == updateRawData.Id);
                     if (dbRawData != null)
                     {
                         dbRawData.Name = updateRawData.Name;
@@ -38,7 +36,7 @@ namespace CVF.App.ApiControllers
                 var deleteRawData = request.RawData;
                 if (deleteRawData != null)
                 {
-                    if(SampleDatas.Any(d=>d.Id == deleteRawData.Id))
+                    if (SampleDatas.Any(d => d.Id == deleteRawData.Id))
                     {
                         // delete the raw data here.
                         SampleDatas.Remove(SampleDatas.First(d => d.Id == deleteRawData.Id));
@@ -67,12 +65,6 @@ namespace CVF.App.ApiControllers
                 Raws = raws.ToList(),
                 Total = total
             };
-        }
-
-        private double[] RandomNumbers(int length)
-        {
-            Random random = new Random();
-            return new int[length].Select(i => Math.Floor(random.NextDouble() * 10000) / 100).ToArray();
         }
     }
 }
