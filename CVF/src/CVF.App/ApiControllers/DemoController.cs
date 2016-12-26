@@ -17,6 +17,8 @@ namespace CVF.App.ApiControllers
                     .Select(i => new DemoPluginRawData() { Id = i, Name = "demo data " + i.ToString(), Type = (DemoEnumType)(i % 3) })
                     .ToList();
 
+        private static List<int> CreationDatas = new List<int>();
+
         [HttpPost]
         [Route("api/demo/table")]
         public PluginPaginationResponse<DemoPluginRawData> GetDataForDemoList([FromBody]SearchRequestInfo<DemoPluginRawData> request)
@@ -24,6 +26,14 @@ namespace CVF.App.ApiControllers
             if (request.Method == PluginRequestMethod.Update)
             {
                 var updateRawData = request.RawData;
+                if (CreationDatas.Any(x => x == updateRawData.Id))
+                {
+                    CreationDatas.Remove(updateRawData.Id);
+                    SampleDatas.Add(new DemoPluginRawData {
+                        Id = updateRawData.Id
+                    });
+                }
+
                 if (updateRawData != null)
                 {
                     var dbRawData = SampleDatas.FirstOrDefault(d => d.Id == updateRawData.Id);
@@ -47,6 +57,21 @@ namespace CVF.App.ApiControllers
                         SampleDatas.Remove(SampleDatas.First(d => d.Id == deleteRawData.Id));
                     }
                 }
+            }
+            else if (request.Method == PluginRequestMethod.Create)
+            {
+                var id = SampleDatas.Max(x => x.Id) + 1;
+                var Raws = new List<DemoPluginRawData>();
+                Raws.Add(new DemoPluginRawData {
+                    Id = id
+                } );
+                CreationDatas.Add(id);
+
+                return new PluginPaginationResponse<DemoPluginRawData>()
+                {
+                    Raws = Raws
+                };
+
             }
 
             var keyword = request.Keyword;

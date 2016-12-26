@@ -3,7 +3,7 @@
   "DisplayName": "Demo Plugin",
   "Description": "Demo plugin",
   "Certificate": { "Thumbnail": "" },
-  "Url": "http://cvf.azurewebsites.net/api",
+  "Url": "http://localhost:41241/api",
   "Scripts": [
     "demo-scripts.js"
   ],
