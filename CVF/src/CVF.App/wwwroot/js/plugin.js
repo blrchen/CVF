@@ -4,10 +4,10 @@
 
     enums.find = function (name, value) {
         var item = enums.items.find(function (i) {
-            return i.name == name;
+            return i.name === name;
         });
 
-        if (typeof (value) == 'undefined') {
+        if (typeof (value) === 'undefined') {
             return item;
         }
 
@@ -52,7 +52,7 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
                 rows = [input];
             } else {
                 for (var i = 0; i < input.length; i++) {
-                    if (i % length == 0) {
+                    if (i % length === 0) {
                         row = [];
                         rows.push(row);
                     }
@@ -67,7 +67,7 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
     }).service('pluginService', ['$http', '$location', function ($http, $location) {
         var find = function (items, name) {
             for (var i = items.length - 1; i >= 0; i--) {
-                if (items[i].name == name) {
+                if (items[i].name === name) {
                     return items[i];
                 }
             }
@@ -93,7 +93,7 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
         this.setCurrent = function (route) {
             var regex = /\/category\/([^\/]*)(\/item\/([^\/]*))?/;
             var match = regex.exec(route);
-            if (match != null) {
+            if (match !== null) {
                 var categoryName = match[1];
                 var itemName = match[3];
 
@@ -150,13 +150,15 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
             'fetch': '正在加载',
             'update': '正在更新',
             'delete': '正在删除',
+            'add': '正在追加',
+            'create': '正在创建',
             'done': null,
         };
 
         $scope.params = {};
         $scope.beforeFetch = function () { };
 
-        var post = function (method) {
+        var post = function (method, callBack) {
             $scope.code = null;
             $scope.response = null;
             var params = [];
@@ -183,15 +185,21 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
                     timeout: 10000
                 }).
                 then(function (response) {
-                    $scope.loadingText = loading.done;
-                    $scope.status = response.status;
-                    $scope.data = response.data;
+
+                    // add callback for your extension
+                    if (typeof callBack === "function") {
+                        callBack(response.data);
+                    } else {
+                        $scope.loadingText = loading.done;
+                        $scope.status = response.status;
+                        $scope.data = response.data;
+                    }
                 }, function (response) {
                     $scope.loadingText = loading.done;
                     console.log(response);
                     $scope.error = {
                         status: response.status,
-                        message: response.data || (response.status == "-1" ? "请求超时，服务器没有在有效时间内做出相应" : "发生未知错误")
+                        message: response.data || (response.status === "-1" ? "请求超时，服务器没有在有效时间内做出相应" : "发生未知错误")
                     };
                 });
         }
@@ -208,6 +216,11 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
         $scope._update = function () {
             $scope.loadingText = loading.update;
             post('Update');
+        };
+
+        $scope._create = function (func) {
+            $scope.loadingText = loading.create;
+            post('Create', func);
         };
 
         $scope._delete = function () {
@@ -252,6 +265,15 @@ var $pluginApp = angular.module("pluginApp", ['ui.bootstrap', 'chart.js', 'ngRou
             $scope.params.raw = JSON.stringify($scope.raw);
             $scope._delete();
             $scope.showModel = false;
+        };
+
+        $scope.add = function () {
+            $scope.showModal = true;
+            $scope._create(function (data) {
+                $scope.raw = {
+                    id: data.raws[0].id
+                };
+            });
         };
 
         $scope.cancel = function () {

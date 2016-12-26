@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "BundlerMinifier.Core": "2.2.281",
+    "CVF.Contract.Core": "1.0.0-*",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.AspNetCore.Razor.Tools": {
@@ -28,9 +29,6 @@
   "frameworks": {
     "net461": {
       "dependencies": {
-        "CVF.Contract": {
-          "target": "project"
-        }
       }
     }
   },
