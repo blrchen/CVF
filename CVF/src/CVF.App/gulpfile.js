@@ -27,7 +27,7 @@ gulp.task('copy', function () {
         'font-awesome': 'font-awesome/**/*.{js,map,css,ttf,svg,woff,eot}',
         'jquery': 'jquery/dist/jquery*.{js,map}',
         'metisMenu': 'metisMenu/dist/*.{js,css}'
-    }
+    };
 
     for (var destinationDir in npm) {
         gulp.src(paths.module + npm[destinationDir])
