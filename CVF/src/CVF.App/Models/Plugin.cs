@@ -9,6 +9,9 @@ namespace CVF.App.Models
         [DataMember(Name = "url")]
         public string Url { get; set; }
 
+        [DataMember(Name = "DebugUrl")]
+        public string DebugUrl { get; set; }
+
         [DataMember(Name = "scripts")]
         public List<string> Scripts { get; set; }
 
@@ -17,5 +20,8 @@ namespace CVF.App.Models
 
         [DataMember(Name = "categories")]
         public List<PluginCategory> Categories { get; set; }
+
+        [DataMember(Name = "refreshInterval")]
+        public int RefreshInterval { get; set; }
     }
 }

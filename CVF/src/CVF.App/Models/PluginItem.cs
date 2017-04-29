@@ -19,6 +19,9 @@ namespace CVF.App.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public PluginItemType Type { get; set; }
 
+        [DataMember(Name = "refreshInterval")]
+        public int RefreshInterval { get; set; }
+
         [DataMember(Name = "controller")]
         public string Controller
         {

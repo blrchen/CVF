@@ -25,7 +25,11 @@ namespace CVF.App.Manager
         {
             try
             {
+#if DEBUG
+                var uri = $"{this.plugin.DebugUrl ?? this.plugin.Url}/{item.Route}";
+#else
                 var uri = $"{this.plugin.Url}/{item.Route}";
+#endif
                 using (HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, uri))
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
