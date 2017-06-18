@@ -5,17 +5,26 @@ using CVF.Contract.Requests;
 using CVF.Contract.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace CVF.App.ApiControllers
 {
-
     public class DemoController : Controller
     {
         private static DemoPluginSettings GlobalSettings;
         private static readonly List<DemoPluginRawData> SampleDatas = ParallelEnumerable.Range(0, 1000)
                     .Select(i => new DemoPluginRawData() { Id = i, Name = "demo data " + i.ToString(), Type = (DemoEnumType)(i % 3) })
                     .ToList();
+
+        public DemoController()
+        {
+            if (GlobalSettings == null)
+            {
+                GlobalSettings = new DemoPluginSettings();
+                GlobalSettings.FormData1 = "FormData1-Default";
+                GlobalSettings.FormData2 = "FormData2-Default";
+                GlobalSettings.TestDate = DateTime.Now;
+                GlobalSettings.UpdateTime = DateTime.UtcNow;
+            }
+        }
 
         [HttpPost]
         [Route("api/demo/table")]
@@ -41,7 +50,7 @@ namespace CVF.App.ApiControllers
                 var deleteRawData = request.RawData;
                 if (deleteRawData != null)
                 {
-                    if(SampleDatas.Any(d=>d.Id == deleteRawData.Id))
+                    if (SampleDatas.Any(d => d.Id == deleteRawData.Id))
                     {
                         // delete the raw data here.
                         SampleDatas.Remove(SampleDatas.First(d => d.Id == deleteRawData.Id));
@@ -72,42 +81,39 @@ namespace CVF.App.ApiControllers
             };
         }
 
+        [HttpGet]
+        [Route("api/demo/form")]
+        public DemoPluginSettings GetDemoData()
+        {
+            return GlobalSettings;
+        }
+
         [HttpPost]
         [Route("api/demo/form")]
-        public DemoPluginSettings GetDataForDemoUpdate([FromBody]UpdateRequestInfo<DemoPluginSettings> request)
+        public DemoPluginSettings UpdateDemoData([FromBody]DemoPluginSettings request)
         {
-            if (GlobalSettings == null)
-            {
-                GlobalSettings = new DemoPluginSettings();
-                GlobalSettings.FormData1 = "FormData1-Default";
-                GlobalSettings.FormData2 = "FormData2-Default";
-                GlobalSettings.UpdateTime = DateTime.UtcNow;
-            }
-
-            if (request.Method == PluginRequestMethod.Update)
-            {
-                GlobalSettings.FormData1 = request.Body.FormData1;
-                GlobalSettings.FormData2 = request.Body.FormData2;
-                GlobalSettings.UpdateTime = DateTime.UtcNow;
-            }
+            GlobalSettings.FormData1 = request.FormData1;
+            GlobalSettings.FormData2 = request.FormData2;
+            GlobalSettings.TestDate = request.TestDate;
+            GlobalSettings.UpdateTime = DateTime.UtcNow;
 
             return GlobalSettings;
         }
 
         [HttpPost]
         [Route("api/demo/chart")]
-        public IReadOnlyList<object> GetDataForDemoReport([FromBody]PluginRequestInfo request)
+        public IReadOnlyList<object> GetDataForDemoReport([FromBody]PluginRequestMethod request)
         {
             var pieData = new
             {
                 Labels = ParallelEnumerable.Range(0, 24).Select(i => i.ToString()).ToArray(),
-                Series = new string[] { "小时物品" },
-                Datas = this.RandomNumbers(24),
+                Series = new string[] { "小时数值" },
+                Data = this.RandomNumbers(24),
             };
             var lineData = new
             {
                 Labels = new string[] { "男", "女" },
-                Datas = this.RandomNumbers(2),
+                Data = this.RandomNumbers(2),
             };
 
             return new object[] { pieData, lineData };
@@ -133,6 +139,8 @@ namespace CVF.App.ApiControllers
         public string FormData1 { get; set; }
 
         public string FormData2 { get; set; }
+
+        public DateTime TestDate { get; set; }
 
         public DateTime UpdateTime { get; set; }
     }
