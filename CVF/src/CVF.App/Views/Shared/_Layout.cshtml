@@ -1,29 +1,77 @@
 ﻿<!DOCTYPE html>
-<html ng-app="pluginApp">
+<html ng-app="manager">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CVF.App</title>
-    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/lib/metisMenu/metisMenu.css" rel="stylesheet" />
-    <link href="~/css/sb-admin-2.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
     <environment names="Development">
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/metisMenu/metisMenu.css" rel="stylesheet" />
+        <link href="~/css/sb-admin-2.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
+        <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/metisMenu/metisMenu.min.css" rel="stylesheet" />
+        <link href="~/css/site.min.css" rel="stylesheet" />
     </environment>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.4.min.js"></script>
 </head>
 <body>
-    @RenderBody()
-    <hr />
-    <div class="footer">
-        <footer class="footer">
-            <p class="text-center">
-                Copy right &copy; 2016 v @ViewData["BuildVersion"]
-            </p>
-        </footer>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="~/">GameCloud Manager Demo</a>
+            </div>
+            <!-- /.navbar-header -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="~/Home/Table"><i class="fa fa-send fa-fw"></i> Table</a>
+                        </li>
+                        <li>
+                            <a href="~/Home/Form"><i class="fa fa-cloud fa-fw"></i> Form</a>
+                        </li>
+                        <li>
+                            <a href="~/Home/Chart"><i class="fa fa-cloud-upload fa-fw"></i> Chart</a>
+                        </li>
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
     </div>
+
+    @* Need bootstrap.js to make bootstrap madal work *@
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/metisMenu/metisMenu.js"></script>
+    <script src="~/js/sb-admin-2.js"></script>
+    <script src="~/lib/chart.js/Chart.js"></script>
+    <script src="~/lib/angular/angular.js"></script>
+    <script src="~/lib/angular-chart.js/angular-chart.js"></script>
+    <script src="~/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/directives.js" asp-append-version="true"></script>
+    <script src="~/js/controllers/IndexController.js" asp-append-version="true"></script>
+    <script src="~/js/controllers/TableController.js" asp-append-version="true"></script>
+    <script src="~/js/controllers/FormController.js" asp-append-version="true"></script>
+    <script src="~/js/controllers/ChartController.js" asp-append-version="true"></script>
+
 
     @RenderSection("scripts", required: false)
 </body>
