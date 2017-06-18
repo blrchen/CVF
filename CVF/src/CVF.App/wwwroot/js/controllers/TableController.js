@@ -28,13 +28,23 @@
 
         $scope.save = function () {
             $scope.params.raw = JSON.stringify($scope.raw);
-            $scope._update();
+            $http.post('/api/demo/table',
+                { "Method": 1, "Parameters": [{ "Name": "pageSize", "Value": "50" }] }
+            ).then(function (response) {
+                $scope.data = response.data;
+            }, function () {
+            });
             $scope.showModal = false;
         };
 
         $scope.delete = function (raw) {
             $scope.params.raw = JSON.stringify(raw);
-            $scope._delete();
+            $http.post('/api/demo/table',
+                { "Method": 2, "Parameters": [{ "Name": "pageSize", "Value": "50" }] }
+            ).then(function (response) {
+                $scope.data = response.data;
+            }, function () {
+            });
             $scope.showModel = false;
         };
 

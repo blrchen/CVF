@@ -28,7 +28,7 @@ namespace CVF.App.ApiControllers
 
         [HttpPost]
         [Route("api/demo/table")]
-        public PluginPaginationResponse<DemoPluginRawData> GetDataForDemoList([FromBody]SearchRequestInfo<DemoPluginRawData> request)
+        public PluginPaginationResponse<DemoPluginRawData> TableList([FromBody]SearchRequestInfo<DemoPluginRawData> request)
         {
             if (request.Method == PluginRequestMethod.Update)
             {
@@ -79,6 +79,36 @@ namespace CVF.App.ApiControllers
                 Raws = raws.ToList(),
                 Total = total
             };
+        }
+
+        [HttpPost]
+        [Route("api/demo/table/update")]
+        public void TableUpdate([FromBody]DemoPluginRawData request)
+        {
+            var updateRawData = request;
+            if (updateRawData != null)
+            {
+                var dbRawData = SampleDatas.FirstOrDefault(d => d.Id == updateRawData.Id);
+                if (dbRawData != null)
+                {
+                    dbRawData.Name = updateRawData.Name;
+                    dbRawData.Type = updateRawData.Type;
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("api/demo/table/delete")]
+        public void TableDelete([FromBody]DemoPluginRawData request)
+        {
+            var deleteRawData = request;
+            if (deleteRawData != null)
+            {
+                if (SampleDatas.Any(d => d.Id == deleteRawData.Id))
+                {
+                    SampleDatas.Remove(SampleDatas.First(d => d.Id == deleteRawData.Id));
+                }
+            }
         }
 
         [HttpGet]
