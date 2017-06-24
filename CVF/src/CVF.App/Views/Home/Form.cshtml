@@ -1,4 +1,11 @@
 ﻿<div class="container-fluid" ng-controller="FormController">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="page-header">
+                <h1>表单示例 <small>form</small></h1>
+            </div>
+        </div>
+    </div>
     <div class="form-horizontal" role="form">
         <div class="form-group">
             <label class="control-label col-sm-2">Form Data 1:</label>
@@ -16,7 +23,7 @@
             <label class="control-label col-sm-2">Form Data 2:</label>
             <div class="col-sm-10">
                 <p class="input-group">
-                    <input type="text" class="form-control" uib-datepicker-popup ng-model="data.testDate" is-open="testDateOpened" datepicker-options="dateOptions" ng-required="true" ng-click="testDateOpened=true" close-text="Close" />
+                    <input type="text" class="form-control" uib-datepicker-popup ng-model="data.testDate" is-open="testDateOpened" datepicker-options="dateOptions" ng-required="true" ng-click="testDateOpened=true" close-text="Close"/>
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="testDateOpened=true"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
